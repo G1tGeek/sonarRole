@@ -1,0 +1,19 @@
+---
+- name: Include package setup
+  import_tasks: package_setup.yml
+
+- name: Include SonarQube user and installation setup
+  import_tasks: sonarqube_setup.yml
+
+- name: Include PostgreSQL setup
+  import_tasks: postgres_setup.yml
+
+- name: Include SonarScanner setup
+  import_tasks: scanner_setup.yml
+
+- name: Include system configuration setup
+  import_tasks: system_setup.yml
+
+- name: Include systemd service setup
+  import_tasks: systemd_setup.yml
+

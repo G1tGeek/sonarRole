@@ -1,0 +1,14 @@
+- name: Update the packages
+  apt:
+    update_cache: true
+
+- name: Install dependencies
+  apt:
+    name:
+      - "{{ java_package }}"
+      - unzip
+      - postgresql
+      - postgresql-contrib
+      - wget
+    state: present
+

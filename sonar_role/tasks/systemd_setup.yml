@@ -1,0 +1,34 @@
+- name: Create SonarQube systemd service file
+  copy:
+    dest: /etc/systemd/system/sonarqube.service
+    content: |
+      [Unit]
+      Description=SonarQube service
+      After=syslog.target network.target
+
+      [Service]
+      Type=forking
+      User={{ sonarqube_user }}
+      Group={{ sonarqube_group }}
+      ExecStart={{ sonarqube_dir }}/bin/linux-x86-64/sonar.sh start
+      ExecStop={{ sonarqube_dir }}/bin/linux-x86-64/sonar.sh stop
+      StandardOutput=journal
+      LimitNOFILE=131072
+      LimitNPROC=8192
+      TimeoutStartSec=5
+      Restart=always
+      SuccessExitStatus=143
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start SonarQube
+  systemd:
+    name: sonarqube
+    enabled: yes
+    state: started
+

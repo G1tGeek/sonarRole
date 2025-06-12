@@ -1,0 +1,36 @@
+- name: Download SonarScanner
+  get_url:
+    url: "{{ sonar_scanner_zip_url }}"
+    dest: /tmp/sonar-scanner.zip
+
+- name: Extract SonarScanner to /opt
+  unarchive:
+    src: /tmp/sonar-scanner.zip
+    dest: /opt
+    remote_src: yes
+
+- name: Rename extracted SonarScanner directory
+  shell: mv /opt/sonar-scanner-* /opt/sonar-scanner
+  args:
+    creates: /opt/sonar-scanner
+
+- name: Set ownership for SonarScanner
+  file:
+    path: "{{ sonar_scanner_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: yes
+
+- name: Set sonar-scanner in PATH
+  lineinfile:
+    path: ~/.bashrc
+    line: 'export PATH=$PATH:/opt/sonar-scanner/bin'
+    state: present
+
+- name: Configure SonarScanner
+  lineinfile:
+    path: "{{ sonar_scanner_dir }}/conf/sonar-scanner.properties"
+    regexp: '^#?sonar.host.url='
+    line: "sonar.host.url=http://localhost:9000"
+    state: present
+

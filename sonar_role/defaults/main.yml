@@ -1,0 +1,12 @@
+---
+java_package: openjdk-17-jdk
+sonarqube_version: 9.9.3.79811
+sonarqube_user: sonar
+sonarqube_group: sonar
+sonarqube_dir: /opt/sonarqube
+sonarqube_zip_url: "https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-{{ sonarqube_version }}.zip"
+sonar_scanner_zip_url: "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-linux-x64.zip"
+sonar_scanner_dir: /opt/sonar-scanner
+postgres_db: sonarqube
+postgres_user: sonar
+postgres_password: sonar

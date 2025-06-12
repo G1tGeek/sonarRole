@@ -1,0 +1,19 @@
+- name: Add system limits to sysctl.conf
+  blockinfile:
+    path: /etc/sysctl.conf
+    block: |
+      vm.max_map_count=262144
+      fs.file-max=65536
+
+- name: Add system limits to limits.conf
+  blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      *  -  nofile  131072
+      *  -  nproc   8192
+
+- name: Reboot the server and wait for it to come back
+  ansible.builtin.reboot:
+    reboot_timeout: 600
+    test_command: whoami
+
